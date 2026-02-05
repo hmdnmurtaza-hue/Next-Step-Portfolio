@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-Step | The Lab & Digital Architecture</title>
+    
+    <meta name="description" content="Portfolio and Insights of Next-Step. GFX, SEO, and Web Development.">
+    <meta name="keywords" content="Next-Step, GFX Design, SEO Strategy, Web Development">
+    <meta name="robots" content="index, follow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ========================================
+        1. DESIGN SYSTEM & ROOT VARIABLES
+        ========================================
+        */
+        :root {
+            --bg-dark: #080808;
+            --bg-card: #111111;
+            --bg-elevated: #1a1a1a;
+            --bg-glass: rgba(8, 8, 8, 0.96);
+            
+            --border-light: rgba(255, 255, 255, 0.05);
+            --border-medium: rgba(255, 255, 255, 0.1);
+            --border-accent: rgba(59, 130, 246, 0.3);
+
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            
+            --bezier: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.5s var(--bezier);
+            --transition-fast: all 0.2s ease;
+
+            --nav-height: 90px;
+            --container-max: 1200px;
+        }
+
+        /* ========================================
+        2. GLOBAL RESET & BASE
+        ========================================
+        */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            background-color: var(--bg-dark);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-smooth);
+        }
+
+        ul { list-style: none; }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ========================================
+        3. NAVIGATION ARCHITECTURE
+        ========================================
+        */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-links a.active, .nav-links a:hover { color: var(--text-primary); }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: var(--transition-smooth);
+            transform: translateX(-50%);
+        }
+
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-action .btn-nav {
+            padding: 12px 24px;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        /* ========================================
+        4. HERO COMPONENT
+        ========================================
+        */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: var(--nav-height);
+            overflow: hidden;
+        }
+
+        .hero-bg-glow {
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-medium);
+            border-radius: 100px;
+            color: var(--accent-blue);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -4px;
+        }
+
+        .hero-content h1 span {
+            color: var(--accent-blue);
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        /* ========================================
+        5. SERVICES (DISCIPLINES)
+        ========================================
+        */
+        .section-header { margin-bottom: 5rem; }
+        .section-header h2 { font-size: 3rem; margin-bottom: 1rem; }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            padding: 4rem 3rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-accent);
+            background: #141414;
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .service-card h4 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .service-card p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* ========================================
+        6. WORK (CASE STUDIES)
+        ========================================
+        */
+        .work-item {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 5rem;
+            align-items: center;
+            margin-bottom: 150px;
+        }
+
+        .work-visual {
+            background: #111;
+            border-radius: 12px;
+            border: 1px solid var(--border-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .browser-top {
+            background: #1a1a1a;
+            padding: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .browser-dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+
+        .work-img-box {
+            height: 450px;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        .work-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 8s ease-in-out;
+        }
+
+        .work-visual:hover img { transform: translateY(-50%); }
+
+        .work-info h3 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .work-info p { color: var(--text-secondary); margin-bottom: 2.5rem; }
+
+        .btn-work {
+            padding: 15px 35px;
+            background: transparent;
+            border: 1px solid var(--border-medium);
+            color: #fff;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            border-radius: 4px;
+        }
+
+        .btn-work:hover { background: #fff; color: #000; }
+
+        /* ========================================
+        7. THE LAB (BLOG ARCHITECTURE)
+        ========================================
+        */
+        .lab-hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            background: linear-gradient(180deg, #0a0a0a 0%, var(--bg-dark) 100%);
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            margin-top: 5rem;
+        }
+
+        .blog-card {
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .blog-meta {
+            font-family: 'JetBrains Mono';
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .blog-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition-fast);
+        }
+
+        .blog-card:hover h3 { color: var(--accent-blue); }
+
+        .blog-card p { color: var(--text-secondary); margin-bottom: 2rem; }
+
+        /* ========================================
+        8. FOOTER ARCHITECTURE
+        ========================================
+        */
+        footer {
+            padding: 120px 0 60px;
+            background: #040404;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 80px;
+        }
+
+        .footer-logo-box p {
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            max-width: 320px;
+        }
+
+        .footer-head {
+            color: #fff;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--accent-blue); }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono';
+        }
+
+        /* ========================================
+        9. ANIMATIONS & REVEAL SYSTEM
+        ========================================
+        */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s var(--bezier), transform 1.2s var(--bezier);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .page-view {
+            display: none;
+            animation: pageIn 0.8s var(--bezier);
+        }
+
+        .page-view.active { display: block; }
+
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================
+        10. RESPONSIVE ENGINE
+        ========================================
+        */
+        @media (max-width: 1024px) {
+            .service-grid { grid-template-columns: repeat(2, 1fr); }
+            .work-item { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-action { display: none; }
+            .service-grid { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 3.5rem; }
+            .lab-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <div class="logo-wrap">
+                <span class="logo-text">NEXT-STEP.</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" onclick="showPage('home')">Studio</a></li>
+                <li><a href="#work" onclick="showPage('home')">Production</a></li>
+                <li><a href="#" onclick="showPage('lab')">The Lab</a></li>
+            </ul>
+            <div class="nav-action">
+                <a href="mailto:contact@nextstep.com" class="btn-nav">Start Project</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="home-view" class="page-view active">
+        <section id="hero">
+            <div class="hero-bg-glow"></div>
+            <div class="container">
+                <div class="hero-content reveal">
+                    <div class="hero-tagline">
+                        <i class="fas fa-shield-alt"></i> Official Portfolio
+                    </div>
+                    <h1>Building High <br><span>Value Systems.</span></h1>
+                    <p>Strategic web architecture, premium GFX, and aggressive SEO optimization for brands that demand a dominant digital presence.</p>
+                    <div class="hero-cta">
+                        <a href="#work" class="btn-work" style="background: #fff; color: #000;">View Work</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" style="padding: 150px 0;">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Core Disciplines</h2>
+                    <p style="color: var(--text-secondary);">Merging aesthetic precision with technical performance.</p>
+                </div>
+                <div class="service-grid">
+                    <div class="service-card reveal">
+                        <i class="fas fa-terminal"></i>
+                        <h4>Development</h4>
+                        <p>Engineered with clean, semantic architecture for maximum speed and scalability.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <i class="fas fa-fingerprint"></i>
+                        <h4>GFX Identity</h4>
+                        <p>High-conversion visual assets designed to capture brand authority instantly.</p>
+                    </div>
+                    <div class="service-card reveal">
+                        <i class="fas fa-search-dollar"></i>
+                        <h4>SEO Strategy</h4>
+                        <p>Search engine positioning to transform static websites into revenue engines.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" style="padding: 150px 0; background: #060606;">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Featured Production</h2>
+                </div>
+
+                <div class="work-item reveal">
+                    <div class="work-visual">
+                        <div class="browser-top">
+                            <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                        </div>
+                        <div class="work-img-box">
+                            <img src="okra-preview.png" alt="Okra Bakery Project">
+                        </div>
+                    </div>
+                    <div class="work-info">
+                        <span class="blog-meta">UI/UX • GFX • DEVELOPMENT</span>
+                        <h3>Okra Bakery</h3>
+                        <p>A full-scale digital renovation. Implemented mobile-first architecture and high-fidelity GFX for a premium culinary brand.</p>
+                        <a href="https://okrabakery.netlify.app" target="_blank" class="btn-work">Launch Site <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="lab-view" class="page-view">
+        <header class="lab-hero">
+            <div class="container">
+                <div class="reveal">
+                    <span class="hero-tagline">Insights & Development Log</span>
+                    <h1 style="font-size: 5rem;">The Lab<span style="color:var(--accent-blue);">.</span></h1>
+                </div>
+            </div>
+        </header>
+
+        <section style="padding: 100px 0;">
+            <div class="container">
+                <div class="lab-grid">
+                    <article class="blog-card reveal">
+                        <span class="blog-meta">FEB 05, 2026 • 5 MIN READ</span>
+                        <h3>The Start of the Journey</h3>
+                        <p>The transition from a consumer to a creator is a threshold most people never cross. Realizing that the digital world isn't just a place to hang out...</p>
+                        <a href="#" class="blog-link">READ FULL ENTRY</a>
+                    </article>
+
+                    <article class="blog-card reveal">
+                        <span class="blog-meta">JAN 20, 2026 • 4 MIN READ</span>
+                        <h3>The GFX Foundation</h3>
+                        <p>Attention is the primary currency. Before I ever typed a line of code, I was obsessed with visuals. Here is why GFX is the hook for any business...</p>
+                        <a href="#" class="blog-link">READ FULL ENTRY</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo-box">
+                    <div class="logo-wrap">
+                        <span class="logo-text">NEXT-STEP.</span>
+                    </div>
+                    <p>Engineering high-performance digital systems for the next generation of business. Architected for authority.</p>
+                </div>
+                <div class="footer-links">
+                    <span class="footer-head">Explore</span>
+                    <ul>
+                        <li><a href="#" onclick="showPage('home')">Studio</a></li>
+                        <li><a href="#work" onclick="showPage('home')">Work</a></li>
+                        <li><a href="#" onclick="showPage('lab')">The Lab</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <span class="footer-head">Connect</span>
+                    <ul>
+                        <li><a href="https://instagram.com/itx._hamdan" target="_blank">Instagram</a></li>
+                        <li><a href="https://github.com/hmdnmurtaza-hue" target="_blank">GitHub</a></li>
+                        <li><a href="https://discord.com/users/pestv2" target="_blank">Discord</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <span class="footer-head">Legal</span>
+                    <ul>
+                        <li><a href="privacy.html" target="_blank">Privacy</a></li>
+                        <li><a href="terms.html" target="_blank">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 NEXT-STEP. ALL RIGHTS RESERVED.</p>
+                <p>ARCHITECTED BY NEXT-STEP</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const AppRouter = {
+            init() {
+                this.views = document.querySelectorAll('.page-view');
+                this.navLinks = document.querySelectorAll('.nav-links a');
+                this.setupRevealObserver();
+                this.handleScrollPerformance();
+                // Fix: Force browser to top on initial entry/refresh
+                if (!window.location.hash || window.location.hash === '#work') {
+                    window.history.replaceState(null, null, ' ');
+                }
+                setTimeout(() => window.scrollTo(0, 0), 10);
+            },
+
+            showPage(pageId) {
+                this.views.forEach(view => view.classList.remove('active'));
+                this.navLinks.forEach(link => link.classList.remove('active'));
+                
+                const targetView = document.getElementById(`${pageId}-view`);
+                if (targetView) targetView.classList.add('active');
+
+                this.navLinks.forEach(link => {
+                    if (link.getAttribute('onclick')?.includes(pageId)) {
+                        link.classList.add('active');
+                    }
+                });
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
+            setupRevealObserver() {
+                const options = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('active');
+                    });
+                }, options);
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            },
+
+            handleScrollPerformance() {
+                const nav = document.querySelector('nav');
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        nav.style.height = '70px';
+                        nav.style.background = 'rgba(8, 8, 8, 0.98)';
+                    } else {
+                        nav.style.height = '90px';
+                        nav.style.background = 'var(--bg-glass)';
+                    }
+                });
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => AppRouter.init());
+        function showPage(pageId) { AppRouter.showPage(pageId); }
+    </script>
+</body>
+</html>
